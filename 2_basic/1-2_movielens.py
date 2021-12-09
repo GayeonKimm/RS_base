@@ -1,6 +1,6 @@
 # SGD 기반으로 행렬 분해 구현, 이를 통해 사용자에게 영화를 추천해주는 시스템 구현
 # RMSE 계산 함수 그대로 사용한다.
-import numpy as np
+
 from sklearn.metrics import mean_squared_error
 
 
