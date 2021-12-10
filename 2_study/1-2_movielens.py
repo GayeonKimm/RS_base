@@ -60,7 +60,8 @@ if __name__== "__main__":
     pred_matrix = np.dot(P, Q.T)
 
 
-ratings_pred_matrix = pd.DataFrame(data=pred_matrix, index= ratings_matrix.index, columns = ratings_matrix.columns)
+ratings_pred_matrix = pd.DataFrame(data = pred_matrix, index = ratings_matrix.index,
+                                   columns = ratings_matrix.columns)
 print("알고리즘 돌린 결과- 예측 평점 행렬 \n", ratings_pred_matrix.head(3))
 
 def get_unseen_movies(ratings_matrix, userId):
@@ -76,6 +77,10 @@ def recomm_movie_by_userid(pred_df, userId, unseen_list, top_n=10):
 
 unseen_list = get_unseen_movies(ratings_matrix, 9)
 recomm_movies = recomm_movie_by_userid(ratings_pred_matrix, 9, unseen_list, top_n=10)
-recomm_movies = pd.DataFrame(data=recomm_movies.values,index=recomm_movies.index,columns=['pred_score'])
+
+print("안본 영화 리스트\n", unseen_list)
+print("recomm_movies\n", recomm_movies)
+
+recomm_movies = pd.DataFrame(data = recomm_movies.values, index = recomm_movies.index, columns=['pred_score'])
 
 print("유저 정보 반영한 최종 예측 결과\n", recomm_movies)
