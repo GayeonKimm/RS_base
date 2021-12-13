@@ -50,8 +50,9 @@ print("\nmovies_df['genres_literal']= \n", movies_df['genres_literal'])
 
 count_vect = CountVectorizer(min_df=0, ngram_range=(1,2))
 genre_mat = count_vect.fit_transform(movies_df['genres_literal'])
-print("\ngenre_mat = \n", genre_mat)
 print("\ngenre_mat shape = ", genre_mat.shape)
+print("\ngenre_mat = \n", genre_mat)
+
 
 
 # 유사도 측정
@@ -63,7 +64,7 @@ print("genre_sim shape = ", genre_sim.shape)
 
 # 유사도 높은 순으로 한번 뒤집어어 봐 = argsort 써보기
 genre_sim_sorted_ind = genre_sim.argsort()[:, ::-1]
-print(genre_sim_sorted_ind[:1])
+print("genre_sim_sorted_ind[:1] = \n", genre_sim_sorted_ind[:1])
 # 유사도 제일 높은건 0번 인덱스(나 자신) 그다음은 3494번 인덱스
 
 # 장르 콘텐츠 필터링 영화 추천
