@@ -32,7 +32,8 @@ print(ratings_matrix.head())
 
 # 영화간 유사도 추출
 ratings_matrix_T = ratings_matrix.transpose()
-print("\ntranspose 한거\n", ratings_matrix_T)
+print("\ntranspose 한 결과\n", ratings_matrix_T)
+
 
 from sklearn.metrics.pairwise import cosine_similarity
 item_sim = cosine_similarity(ratings_matrix_T, ratings_matrix_T)
@@ -43,6 +44,7 @@ item_sim_df = pd.DataFrame(data = item_sim, index = ratings_matrix.columns,
 print("\n item sim df shape : {}".format(item_sim_df.shape))
 print(item_sim_df.head())
 # 9064 권에 대한 유사도 계산 데이터 프레임완성
+
 
 
 # 제품에 대해 유사도 높은 순서대로 출력해보기
