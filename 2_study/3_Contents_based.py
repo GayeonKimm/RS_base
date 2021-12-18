@@ -25,13 +25,13 @@ movies_df = movies[['id', 'title','genres','vote_average', 'vote_count']]
 print('movies_df\n', movies_df)
 
 
-# genres 컬럼 따로 뽑아내기
+# genres 컬럼 따로 추출하기
 movies_df['genres'] = movies_df['genres'].apply(literal_eval)
 print(movies_df['genres'][1])
-# print(movies_df[['genres']][1]) # 이렇게 하니까 오류가 나네여
+# print(movies_df[['genres']][1]) # 이렇게 하니까 오류- array라서
 print(movies_df[['genres']][:2])
 # {'id': 28, 'name': 'Action'}, {'id': 12, 'name': 'Adventure'}
-# name만 사용할 거야
+# name만 사용
 
 movies_df['genres'] = movies_df['genres'].apply(lambda x : [y['name'] for y in x])
 print(movies_df[['genres']][:5])
@@ -69,7 +69,7 @@ print("genre_sim_sorted_ind[:1] = \n", genre_sim_sorted_ind[:1])
 
 # 장르 콘텐츠 필터링 영화 추천
 print(movies_df[['title', 'vote_average','vote_count']].sort_values('vote_average', ascending=False)[:10])
-# count 가 불균형함, 보정해야 됨!
+# count 가 불균형함, 보정해야 됨
 
 
 # 가중치가 부여된 평점 계산 방식 사용
@@ -110,5 +110,5 @@ similar_movies = find_sim_movie(movies_df, genre_sim_sorted_ind, 'The Godfather'
 print(similar_movies.columns)
 print("\nThe Godfather의 추천 최종 결과\n", similar_movies[['title','vote_average', 'weighted_vote']])
 
-# 장르의 유사성 확인 ~~~~
+# 장르의 유사성 확인
 print("\nThe Godfather의 추천 최종 결과\n", similar_movies[['title', 'genres','vote_average', 'weighted_vote']])
