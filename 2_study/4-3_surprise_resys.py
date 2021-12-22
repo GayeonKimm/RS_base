@@ -13,20 +13,18 @@ from surprise.model_selection import train_test_split
 from surprise import SVD
 
 # 데이터 분리 과정 없이 전체를 학습 데이터로 사용
-# 오류 발생
 ratings = pd.read_csv("../dataset/ml-latest-small/ratings.csv")
-
+# 오류 발생
 # reader = Reader(rating_scale = (0.5, 5))
 # data = Dataset.load_from_file(ratings['userId', 'moviId', 'rating'], reader)
 # algo = SVD(n_factor=50, random=0)
 # algo.fit(data)
 
 
-
-# build_full_trainset() 메서드를 호출
-# 전체 데이터를 학습 데이터로 이용할 수 있다
-
+# build_full_trainset() 메서드
+# 전체 데이터를 학습 데이터로 이용할 수 있는 방법
 from surprise.dataset import DatasetAutoFolds
+
 reader = Reader(line_format='user item rating timestamp', sep=',', rating_scale=(0, 0.5))
 data_folds = DatasetAutoFolds(ratings_file='../dataset/ml-latest-small/ratings_noh.csv', reader=reader)
 trainset = data_folds.build_full_trainset()
@@ -35,24 +33,20 @@ trainset = data_folds.build_full_trainset()
 algo = SVD(n_epochs=20, n_factors=50, random_state=0)
 algo.fit(trainset)
 
+## test
 # userId =9 사용자로 지정하여 테스트 진행
 movies = pd.read_csv(r"../dataset/ml-latest-small/movies.csv")
 movieid = ratings[ratings['userId'] == 9]['movieId']
-# movieid = 사용자 9가 평점을 매긴 영화 id
-
-
-# if movieid[movieid == 42].count() == 0:
-#     print("There is no rating of 42 for user 9")
-#
-# print(movies[movies['movieId']] == 42)
-# print(movies['movieId'])
-
 
 uid = str(9)
 iid = str(42)
 
 pred = algo.predict(uid, iid, verbose=True)
+## test
 
+
+
+# 개인화 추천
 
 # user id 가 9인 고객이 보지 않았던 전체 영화를 추출한 뒤
 # 예측 평점으로 영화를 추천
@@ -69,10 +63,6 @@ def get_unseen_surprise(ratings, movies, userId):
 
 
 # SVD를 활용해 높은 예측 평점을 가진 순으로 영화를 추천
-# 추천 알고리즘 객체의 predict 메서드를 호출
-# 그 결과인 prediction 객체를 리스트 객체로 저장
-# 저장된 리스트 내부의 prediction 객체를 예측 평점이 높은 순으로 다시 정렬
-# Top-N개의 prediction 객체에서 영화를 추출함
 
 def recomm_movies_by_surprise(algo, userId, unseen_movied, top_n=10):
     predictions = [algo.predict(str(userId), str(movieId)) for movieId in unseen_movies]
@@ -90,6 +80,8 @@ def recomm_movies_by_surprise(algo, userId, unseen_movied, top_n=10):
 
     return top_movie_pred
 
+
+# 결과 출력
 unseen_movies = get_unseen_surprise(ratings, movies, 9)
 top_movies_preds = recomm_movies_by_surprise(algo, 9, unseen_movies, top_n=20)
 
